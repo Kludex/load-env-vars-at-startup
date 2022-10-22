@@ -6,7 +6,7 @@ from libcst.codemod import CodemodContext, CodemodTest
 from load_env_vars_at_startup._codemod import ReplaceGetEnvCodemod
 
 
-class TestReplaceGetEnvCodemod(CodemodTest):
+class TestReplaceGetEnvCodemod(CodemodTest):  # type: ignore[misc]
     TRANSFORM = ReplaceGetEnvCodemod
 
     def test_getenv(self) -> None:
