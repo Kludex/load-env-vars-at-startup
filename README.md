@@ -77,7 +77,8 @@ app = FastAPI()
 
 @app.get("/")
 def index():
-    return {"message": f"Hello, {settings.APP_NAME}!"}
+    name = settings.APP_NAME
+    return {"message": f"Hello, {name}!"}
 ```
 
 ## Installation
