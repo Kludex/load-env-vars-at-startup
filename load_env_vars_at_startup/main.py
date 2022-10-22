@@ -17,17 +17,20 @@ app = Typer(add_completion=False)
 
 
 def rewrite(filename: str, module: str) -> list[EnvVar]:
-    with Path(filename).open("r+") as file:
+    with Path(filename).open("r") as file:
         mod = cst.parse_module(file.read())
-        context = CodemodContext(scratch={"module": module})
+        wrapper = cst.MetadataWrapper(mod)
+        context = CodemodContext(scratch={"module": module}, wrapper=wrapper)
         mod = ReplaceGetEnvCodemod(context).transform_module(mod)
         mod = RemoveUnusedImportsCommand(context).transform_module(mod)
-        file.seek(0)
+
+    with Path(filename).open("w") as file:
         file.write(mod.code)
-    return context.scratch["env_vars"]
+
+    return context.scratch["env_vars"]  # type: ignore
 
 
-@app.command()
+@app.command()  # type: ignore[misc]
 def main(
     dir: Path = Argument(
         ..., exists=True, dir_okay=True, help="Your project directory."
@@ -35,7 +38,7 @@ def main(
     config_path: Union[Path, None] = Option(
         None, help="Path of the config module. Defaults to <dir>/config.py."
     ),
-):
+) -> None:
     """Load environment variables at startup, please!
 
     This tool will rewrite your code to load environment variables at startup.

@@ -26,8 +26,15 @@ classifiers = [
 ]
 license = "MIT"
 requires-python = ">=3.7"
-dependencies = []
+dependencies = [
+    "libcst>=0.4.7<0.5.0",
+    "typer>=0.6.1<0.7.0",
+    "jinja2>=3.1.2<4.0.0",
+]
 optional-dependencies = {}
+
+[project.scripts]
+levas = "load_env_vars_at_startup.main:app"
 
 [project.urls]
 Homepage = "https://github.com/Kludex/load-env-vars-at-startup"

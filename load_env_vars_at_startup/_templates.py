@@ -7,4 +7,4 @@ class Settings(BaseSettings):
 {% endfor %}
 
 settings = Settings()
-"""
+"""  # pragma: no cover
